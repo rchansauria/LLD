@@ -4,6 +4,7 @@ import models.Gate;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class GateRepository {
     Map<Long, Gate> gateMap;
@@ -21,5 +22,9 @@ public class GateRepository {
         }
         gateMap.put(gate.getId(), gate);
         return gate;
+    }
+
+    public Optional<Gate> findById(Long id) {
+        return Optional.ofNullable(gateMap.get(id));
     }
 }
