@@ -20,10 +20,13 @@ public class PriceCalculatorService {
 
     public double calculatePrice(List<ShowSeat> showSeatList) {
         double price = 0;
+        List<ShowSeatType> showSeatTypeList = showSeatTypeRepository.findAllByShow(showSeatList.get(0).getShows());
         for (ShowSeat showSeat : showSeatList) {
-            Optional<ShowSeatType> optionalShowSeatType = showSeatTypeRepository.findById(showSeat.getId());
-            if (optionalShowSeatType.isPresent()) {
-                price += optionalShowSeatType.get().getPrice();
+            for (ShowSeatType showSeatType : showSeatTypeList) {
+                if (showSeat.getSeats().getSeatType().equals(showSeatType)) {
+                    price += showSeatType.getPrice();
+                    break;
+                }
             }
         }
         return price;
